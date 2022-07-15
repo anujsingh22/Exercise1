@@ -1,0 +1,75 @@
+package com.exercise1.demo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+public class ProductController {
+
+ @Autowired
+ private List<Product> productList;
+
+ @GetMapping("/product")
+ Product getByName(@RequestParam("name") String name) {
+        for (Product pr : productList) {
+            if (pr.getName().equals(name))
+                return pr;
+        }
+        return null;
+    }
+
+ @GetMapping("/product")
+ Product getByType(@RequestParam("type") String type) {
+        for (Product pr : productList) {
+            if (pr.getType().equals(type))
+                return pr;
+        }
+        return null;
+    }
+
+ @GetMapping("/product")
+ Product getByCategory(@RequestParam("category") String category) {
+        for (Product pr : productList) {
+            if (pr.getCategory().equals(category))
+                return pr;
+        }
+        return null;
+    }
+
+
+ @GetMapping("/product")
+ Product getByPrice(@RequestParam("price") String price) {
+        for (Product pr : productList) {
+            if (pr.getPrice().equals(price))
+                return pr;
+        }
+        return null;
+    }
+
+ @PostMapping("/movie")
+ void createMovie(@RequestBody Product product) {
+        this.productList.add(product);
+    }
+
+ @PutMapping("/movie")
+ String putMapping(@RequestParam("name") String name, @RequestBody Product product) {
+        for (Product product1 : productList) {
+            if (product1.getName().equals(name)){
+                productList.remove(product1);
+                productList.add(product);
+                return "Rating got updated";
+            }
+        }
+        return "No movie found";
+    }
+
+ @DeleteMapping("/movie")
+ void del(@RequestParam("name") String name) {
+        for (Product pr : productList) {
+            if (pr.getName().equals(name))
+                productList.remove(pr);
+        }
+    }
+}
